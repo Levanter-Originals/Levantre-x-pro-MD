@@ -89,7 +89,7 @@ async function connectToWA() {
 
       const up = `Levantre x pro MD Connected \n\nPREFIX: ${prefix}`;
       await danuwa.sendMessage(ownerNumber[0] + "@s.whatsapp.net", {
-        image: { url: `https://github.com/DANUWA-MD/DANUWA-MD/blob/main/images/DANUWA-MD.png?raw=true` },
+        image: { url: `https://raw.githubusercontent.com/Levanter-Originals/Levantre-x-pro-MD/refs/heads/main/LoGo/Connected.jpg` },
         caption: up
       });
 
