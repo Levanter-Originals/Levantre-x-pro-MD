@@ -7,38 +7,36 @@ cmd(
     category: "main",
     filename: __filename,
   },
-  async (danuwa, mek, m, { from, reply }) => {
+  async (danuwa, mek, m, { from }) => {
     try {
       let menuText = `
 「 ʟᴇᴠᴀɴᴛᴇʀ x ᴘʀᴏ ᴍᴅ 」
 
 ╭───────────
-┊ 💠 *ᴘʀᴏғɪx  .*
-┊ 💠 *ᴠᴇʀsɪᴏɴ ғour*
-┊ 💠 *ᴏᴡɴᴇʀ ᴛʜᴇᴇᴋsʜᴀɴᴀ ᴏғᴄ*
-┊ 💠 *sᴜᴄᴄᴇssғᴜʟʏ ᴄᴏɴɴᴇᴄᴛᴇᴅ*
+┊ 💠 ᴘʀᴏғɪx  .
+┊ 💠 ᴠᴇʀsɪᴏɴ ғour
+┊ 💠 sᴜᴄᴄᴇssғᴜʟʏ ᴄᴏɴɴᴇᴄᴛᴇᴅ
+┊ 💠 ᴏᴡɴᴇʀ ᴛʜᴇᴇᴋsʜᴀɴᴀ ᴏғᴄ
 ╰───────────────────
 
 ╭───────────────
-┊ 🔴 *ᴘᴜᴛ ᴛʜɪs ʟɪɴᴋ ᴀs ʏᴏᴜʀ sᴛᴀᴛᴜs.*
+┊ 🔴 ᴘᴜᴛ ᴛʜɪs ʟɪɴᴋ ᴀs ʏᴏᴜʀ sᴛᴀᴛᴜs.
 ┊ 🔴 *ʟɪɴᴋ 👉🏻https://youtube.com/@levanteroriginals?si=3RTNDrNmoz0e-vMJ*  
-┊          *sᴜʙsᴄʀɪʙᴇ ᴛʜɪs ᴄʜᴀɴɴᴇʟ
-┊ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʟᴇᴠᴀɴᴛᴇʀ                  ᴛᴇᴄʜɴᴏʟᴏɢʏ*
+┊          sᴜʙsᴄʀɪʙᴇ ᴛʜɪs ᴄʜᴀɴɴᴇʟ
+┊ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʟᴇᴠᴀɴᴛᴇʀ                  ᴛᴇᴄʜɴᴏʟᴏɢʏ
 ╰───────────────────
 `;
-
-      const buttons = [
-        {
-          buttonId: "downloadmenu", // button pattern
-          buttonText: { displayText: "⬇ Download Menu" },
-          type: 1,
-        },
-      ];
 
       const buttonMessage = {
         text: menuText.trim(),
         footer: "ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʟᴇᴠᴀɴᴛᴇʀ ᴛᴇᴄʜɴᴏʟᴏɢʏ",
-        buttons: buttons,
+        buttons: [
+          {
+            buttonId: "downloadmenu", // when clicked, it triggers this ID
+            buttonText: { displayText: "⬇ Download Menu" },
+            type: 1,
+          },
+        ],
         headerType: 1,
       };
 
@@ -46,7 +44,8 @@ cmd(
 
     } catch (err) {
       console.error(err);
-      reply("❌ Error showing menu with button.");
+      await danuwa.sendMessage(from, { text: "❌ Error showing menu with button." }, { quoted: mek });
     }
   }
 );
+
