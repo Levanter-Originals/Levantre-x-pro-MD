@@ -27,17 +27,15 @@ cmd(
 ╰───────────────────
 `;
 
+      const templateButtons = [
+        { index: 1, quickReplyButton: { displayText: "⬇ Download Menu", id: "downloadmenu" } },
+        { index: 2, urlButton: { displayText: "📺 YouTube", url: "https://youtube.com/@levanteroriginals" } }
+      ];
+
       const buttonMessage = {
         text: menuText.trim(),
         footer: "ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʟᴇᴠᴀɴᴛᴇʀ ᴛᴇᴄʜɴᴏʟᴏɢʏ",
-        buttons: [
-          {
-            buttonId: "downloadmenu", // when clicked, it triggers this ID
-            buttonText: { displayText: "⬇ Download Menu" },
-            type: 1,
-          },
-        ],
-        headerType: 1,
+        templateButtons: templateButtons
       };
 
       await danuwa.sendMessage(from, buttonMessage, { quoted: mek });
@@ -48,4 +46,3 @@ cmd(
     }
   }
 );
-
