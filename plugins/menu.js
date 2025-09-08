@@ -3,45 +3,149 @@ const { cmd, commands } = require("../command");
 cmd(
   {
     pattern: "menu",
-    desc: "Displays all available commands",
+    alise: ["getmenu"],
+    desc: "get cmd list",
     category: "main",
     filename: __filename,
   },
   async (
-    danuwa,
+    robin,
     mek,
     m,
     {
       from,
-      reply
+      quoted,
+      body,
+      isCmd,
+      command,
+      args,
+      q,
+      isGroup,
+      sender,
+      senderNumber,
+      botNumber2,
+      botNumber,
+      pushname,
+      isMe,
+      isOwner,
+      groupMetadata,
+      groupName,
+      participants,
+      groupAdmins,
+      isBotAdmins,
+      isAdmins,
+      reply,
     }
   ) => {
     try {
-      const categories = {};
+      const config = await readEnv();
+      let menu = {
+        main: "",
+        download: "",
+        group: "",
+        owner: "",
+        convert: "",
+        search: "",
+      };
 
-      for (let cmdName in commands) {
-        const cmdData = commands[cmdName];
-        const cat = cmdData.category?.toLowerCase() || "other";
-        if (!categories[cat]) categories[cat] = [];
-        categories[cat].push({
-          pattern: cmdData.pattern,
-          desc: cmdData.desc || "No description"
-        });
+      for (let i = 0; i < commands.length; i++) {
+        if (commands[i].pattern && !commands[i].dontAddCommandList) {
+          menu[
+            commands[i].category
+          ] += ${config.PREFIX}${commands[i].pattern}\n;
+        }
       }
 
-      let menuText = "📋 *Available Commands:*\n";
+      let madeMenu = `「 ʟᴇᴠᴀɴᴛᴇʀ x ᴘʀᴏ ᴍᴅ 」
 
-      for (const [cat, cmds] of Object.entries(categories)) {
-        menuText += `\n📂 *${cat.toUpperCase()}*\n`;
-        cmds.forEach(c => {
-          menuText += `- .${c.pattern} : ${c.desc}\n`;
-        });
+╭───────────
+┊ 💠 ᴘʀᴏғɪx  .
+┊ 💠 ᴠᴇʀsɪᴏɴ ғour
+┊ 💠 sᴜᴄᴄᴇssғᴜʟʏ ᴄᴏɴɴᴇᴄᴛᴇᴅ
+┊ 💠 ᴏᴡɴᴇʀ ᴛʜᴇᴇᴋsʜᴀɴᴀ ᴏғᴄ
+╰───────────────────
+
+╭───────────────
+┊ 🔴 ᴘᴜᴛ ᴛʜɪs ʟɪɴᴋ ᴀs ʏᴏᴜʀ sᴛᴀᴛᴜs.
+┊ 🔴 *ʟɪɴᴋ 👉🏻https://youtube.com/@levanteroriginals?si=3RTNDrNmoz0e-vMJ*  
+┊          sᴜʙsᴄʀɪʙᴇ ᴛʜɪs ᴄʜᴀɴɴᴇʟ
+┊ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʟᴇᴠᴀɴᴛᴇʀ                  ᴛᴇᴄʜɴᴏʟᴏɢʏ
+╰───────────────────`;
+
+      await robin.sendMessage(
+        from,
+        {
+          image: {
+            url: "https://raw.githubusercontent.com/Levanter-Originals/Levantre-x-pro-MD/refs/heads/main/LoGo/Connected.jpg",
+          },
+          caption: madeMenu,
+          buttons: [
+            {
+              buttonId: "download_menu",
+              buttonText: { displayText: "📥 Download Menu" },
+              type: 1,
+            },
+            {
+              buttonId: "owner_menu",
+              buttonText: { displayText: "👑 Owner Menu" },
+              type: 1,
+            },
+          ],
+          headerType: 4,
+        },
+        { quoted: mek }
+      );
+    } catch (e) {
+      console.log(e);
+      reply(${e});
+    }
+  }
+);
+
+// 📥 Download Menu
+cmd(
+  {
+    pattern: "download_menu",
+    dontAddCommandList: true,
+  },
+  async (robin, mek, m, { from, reply }) => {
+    try {
+      const config = await readEnv();
+      let menu = {
+        download: "",
+      };
+      for (let i = 0; i < commands.length; i++) {
+        if (commands[i].pattern && commands[i].category === "download") {
+          menu.download += ${config.PREFIX}${commands[i].pattern}\n;
+        }
       }
+      await reply("📥 Download Menu \n\n" + menu.download);
+    } catch (e) {
+      reply("❌ Error showing Download Menu");
+    }
+  }
+);
 
-      await reply(menuText.trim());
-    } catch (err) {
-      console.error(err);
-      reply("❌ Error generating menu.");
+// 👑 Owner Menu
+cmd(
+  {
+    pattern: "owner_menu",
+    dontAddCommandList: true,
+  },
+  async (robin, mek, m, { from, reply }) => {
+    try {
+      const config = await readEnv();
+      let menu = {
+        owner: "",
+      };
+      for (let i = 0; i < commands.length; i++) {
+        if (commands[i].pattern && commands[i].category === "owner") {
+          menu.owner += ${config.PREFIX}${commands[i].pattern}\n;
+        }
+      }
+      await reply("👑 Owner Menu \n\n" + menu.owner);
+    } catch (e) {
+      reply("❌ Error showing Owner Menu");
     }
   }
 );
