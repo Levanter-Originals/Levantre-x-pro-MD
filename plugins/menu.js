@@ -35,10 +35,38 @@ cmd(
 ╰───────────────────
       `;
 
-      await reply(menuText.trim());
+      await danuwa.sendMessage(from, {
+        text: menuText.trim(),
+        footer: "Select one option below 👇",
+        buttons: [
+          { buttonId: "select_menu", buttonText: { displayText: "📂 Select Menu" }, type: 1 }
+        ],
+        headerType: 4
+      });
     } catch (err) {
       console.error(err);
       reply("❌ Error showing menu.");
     }
+  }
+);
+
+// --- Extra handler for "Select Menu" button ---
+cmd(
+  {
+    pattern: "select_menu",
+    desc: "Show extra menu options",
+    category: "main",
+    filename: __filename,
+  },
+  async (danuwa, mek, m, { from }) => {
+    await danuwa.sendMessage(from, {
+      text: "📋 Choose an option:",
+      footer: "Select your menu 👇",
+      buttons: [
+        { buttonId: "download_menu", buttonText: { displayText: "⬇ Download Menu" }, type: 1 },
+        { buttonId: "owner_menu", buttonText: { displayText: "👑 Owner Menu" }, type: 1 }
+      ],
+      headerType: 4
+    });
   }
 );
