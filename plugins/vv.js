@@ -10,17 +10,11 @@ cmd(
   },
   async (danuwa, mek, m, { reply }) => {
     try {
-      if (
-        !mek.quoted ||
-        (!mek.quoted.viewOnce &&
-          !mek.quoted.message?.viewOnceMessageV2 &&
-          !mek.quoted.message?.viewOnceMessageV2Extension)
-      ) {
-        return reply(
-          "❌ Reply to a View Once photo, video, or voice message using .vv"
-        );
+      if (!mek.quoted) {
+        return reply("❌ Reply to a View Once photo / video / audio using .vv");
       }
 
+      // find inside quoted message
       let msg = mek.quoted.message || mek.quoted;
       let viewOnceObj =
         msg.viewOnceMessageV2 ||
@@ -28,22 +22,22 @@ cmd(
         msg.viewOnce;
 
       if (!viewOnceObj) {
-        return reply("⚠ Can't find view once media content!");
+        return reply("⚠ This is not a View Once media!");
       }
 
-      // Extract original message inside
+      // real content
       let mediaMsg = viewOnceObj.message;
 
       if (mediaMsg.imageMessage) {
         await danuwa.sendMessage(
           m.chat,
-          { image: mediaMsg.imageMessage, caption: "📷 ViewOnce image unlocked!" },
+          { image: mediaMsg.imageMessage, caption: "📷 View Once image unlocked!" },
           { quoted: mek }
         );
       } else if (mediaMsg.videoMessage) {
         await danuwa.sendMessage(
           m.chat,
-          { video: mediaMsg.videoMessage, caption: "🎥 ViewOnce video unlocked!" },
+          { video: mediaMsg.videoMessage, caption: "🎥 View Once video unlocked!" },
           { quoted: mek }
         );
       } else if (mediaMsg.audioMessage) {
@@ -53,11 +47,11 @@ cmd(
           { quoted: mek }
         );
       } else {
-        reply("❌ Unsupported ViewOnce message type!");
+        reply("❌ Unsupported View Once type!");
       }
-    } catch (e) {
-      console.log("VV ERROR:", e);
-      reply(❌ Error: ${e.message});
+    } catch (err) {
+      console.error("VV ERROR:", err);
+      await reply("❌ Error unlocking View Once media.");
     }
   }
 );
