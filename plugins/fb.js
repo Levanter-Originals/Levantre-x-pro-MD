@@ -1,12 +1,12 @@
-const { cmd, commands } = require("../command");
+const { cmd } = require("../command");
 const getFbVideoInfo = require("@xaviabot/fb-downloader");
 
 cmd(
   {
     pattern: "fb",
-    alias: ["facebook"],
-    react: "✅",
-    desc: "Download Facebook Video",
+    alias: ["facebook", "fbdl"],
+    react: "📥",
+    desc: "Download Facebook videos easily",
     category: "download",
     filename: __filename,
   },
@@ -16,77 +16,83 @@ cmd(
     m,
     {
       from,
-      quoted,
-      body,
-      isCmd,
-      command,
       args,
       q,
-      isGroup,
-      sender,
-      senderNumber,
-      botNumber2,
-      botNumber,
-      pushname,
-      isMe,
-      isOwner,
-      groupMetadata,
-      groupName,
-      participants,
-      groupAdmins,
-      isBotAdmins,
-      isAdmins,
       reply,
     }
   ) => {
     try {
-      if (!q) return reply("*Please provide a valid Facebook video URL!* ❤️");
+      if (!q)
+        return reply(
+          "❌ Please provide a valid Facebook video URL!\n\n📌 Example: _.fb https://fb.watch/example_"
+        );
 
       const fbRegex = /(https?:\/\/)?(www\.)?(facebook|fb)\.com\/.+/;
       if (!fbRegex.test(q))
-        return reply("*Invalid Facebook URL! Please check and try again.* ☹️");
+        return reply("⚠ Invalid Facebook URL!\n\n👉 Try again with a correct link.");
 
-      reply("*Downloading your video...* ❤️");
+      // Inform user
+      await reply("⏳ Fetching your video, please wait...");
 
+      // Get video info
       const result = await getFbVideoInfo(q);
       if (!result || (!result.sd && !result.hd)) {
-        return reply("*Failed to download video. Please try again later.* ☹️");
+        return reply("😔 Video download failed!\nPlease try again later.");
       }
 
       const { title, sd, hd } = result;
       const bestQualityUrl = hd || sd;
       const qualityText = hd ? "HD" : "SD";
 
-      const desc = `
-Your fb video
-👻 *Title*: ${title || "Unknown"}
-👻 *Quality*: ${qualityText}
+      // Info Card
+      const captionText = `
+🎥 Facebook Video Downloader
+────────────────────
+✨ Title: ${title || "Unknown"}
+🎚 Quality: ${qualityText}
+🌐 Source: Facebook
+────────────────────
+⏬ Downloading your video below...
 `;
 
       await danuwa.sendMessage(
         from,
         {
           image: {
-            url: "https://github.com/DANUWA-MD/DANUWA-MD/blob/main/images/fbdownloader.png?raw=true",
+            url: "https://i.ibb.co/mBL2B94/facebook.png", // better fb logo
           },
-          caption: desc,
+          caption: captionText,
         },
         { quoted: mek }
       );
 
+      // Send video
       await danuwa.sendMessage(
         from,
         {
           video: { url: bestQualityUrl },
-          caption: `*📥 Downloaded in ${qualityText} quality*`,
+          caption: ✅ *Here is your video in ${qualityText} quality*,
+          buttons: [
+            {
+              buttonId: .fb ${q},
+              buttonText: { displayText: "🔁 Download Again" },
+              type: 1,
+            },
+            {
+              buttonId: .menu,
+              buttonText: { displayText: "🏠 Back to Menu" },
+              type: 1,
+            },
+          ],
+          headerType: 4,
         },
         { quoted: mek }
       );
 
-      return reply("Thank you for using DANUWA-MD");
+      return reply("💝 Thanks for using DANUWA-MD Facebook Downloader!");
     } catch (e) {
       console.error(e);
-      reply(`*Error:* ${e.message || e}`);
+      reply(🚨 *Error Occurred!*\n\n📌 Details: ${e.message || e});
     }
   }
 );
