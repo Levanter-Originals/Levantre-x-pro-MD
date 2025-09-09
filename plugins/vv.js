@@ -18,6 +18,6 @@ bot(
       )
     }
     const [jid] = parsedJid(match)
-    await forwardOrBroadCast(jid || message.jid, message, { viewOnce: false })
+    await forwardOrBroadCast(jid || message.jid, message, { viewOnce: true })
   }
 )
