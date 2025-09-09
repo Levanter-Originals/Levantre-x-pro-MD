@@ -57,19 +57,6 @@ cmd(
       const bestQualityUrl = hd || sd;
       const qualityText = hd ? "HD" : "SD";
 
-     
-
-      await danuwa.sendMessage(
-        from,
-        {
-          image: {
-            url: "https://github.com/DANUWA-MD/DANUWA-MD/blob/main/images/fbdownloader.png?raw=true",
-          },
-          caption: desc,
-        },
-        { quoted: mek }
-      );
-
       await danuwa.sendMessage(
         from,
         {
