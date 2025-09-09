@@ -40,7 +40,7 @@ cmd(
     }
   ) => {
     try {
-      if (!q) return reply("❌ *Please provide a song name or YouTube link*");
+      if (!q) return reply("*Please Provide a Song Name Or YouTube link*");
 
       const search = await yts(q);
       const data = search.videos[0];
@@ -71,7 +71,7 @@ Song downloader
           : durationParts[0] * 60 + durationParts[1];
 
       if (totalSeconds > 1800) {
-        return reply("⏳ *Sorry, audio files longer than 30 minutes are not supported.*");
+        return reply("*Sorry, Audio Files Longer Than 30 Minutes Are Not Supported.*");
       }
 
       await danuwa.sendMessage(
@@ -89,12 +89,12 @@ Song downloader
           document: { url: songData.download.url },
           mimetype: "audio/mpeg",
           fileName: `${data.title}.mp3`,
-          caption: "🎶 *Your song is ready to be played!*",
+          caption: "*Your Song Is Ready To Be Played !*",
         },
         { quoted: mek }
       );
 
-      return reply("✅ Thank you");
+      return reply("*Thank You*");
     } catch (e) {
       console.log(e);
       reply(`❌ *Error:* ${e.message} 😞`);
