@@ -1,4 +1,4 @@
-const { bot, forwardOrBroadCast, parsedJid } = require('../lib')
+const { cmd } = require("../command");
 
 bot(
   {
