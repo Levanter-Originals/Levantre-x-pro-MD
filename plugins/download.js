@@ -3,7 +3,7 @@ const axios = require("axios");
 
 cmd(
 {
-  pattern: "menu",
+  pattern: "3",
   desc: "Displays menu with image",
   category: "main",
   filename: __filename,
