@@ -2,58 +2,48 @@ const { cmd } = require("../command");
 
 cmd(
   {
-    pattern: 'vv',
-    fromMe: true,
-    desc: 'Unlock View-Once media (photo/video/audio)',
-    category: 'whatsapp',
+    on: "message", // Auto run for all messages
+    fromMe: false,
     filename: __filename,
   },
-  async (levanter, mek, m, { reply, from, isOwner }) => {
+  async (bot, mek, m) => {
     try {
-      if (!mek.quoted) {
-        return reply('❌ *Reply to a “View Once” photo/video/audio using .vv*');
-      }
+      const msg = m.message;
+      if (!msg) return;
 
-      const qmsg = mek.quoted.message || mek.quoted;
+      // Check for View Once wrapper
       const viewOnce =
-        qmsg.viewOnceMessageV2 ||
-        qmsg.viewOnceMessageV2Extension ||
-        qmsg.viewOnce;
+        msg.viewOnceMessageV2 ||
+        msg.viewOnceMessageV2Extension ||
+        msg.viewOnce;
 
-      if (!viewOnce) {
-        return reply('⚠ That message is not a View Once media!');
-      }
+      if (!viewOnce) return; // Not a View Once message
 
-      const real = viewOnce.message;
+      // Extract real media
+      const real = viewOnce.message || {};
 
+      // Send it back to same chat
       if (real.imageMessage) {
-        await levanter.sendMessage(
-          from,
-          { image: real.imageMessage, caption: '📷 Unlocked Image' },
-          { quoted: mek }
+        await bot.sendMessage(
+          m.chat,
+          { image: real.imageMessage, caption: `📷 Auto-unlocked image from ${m.pushName || m.sender}` },
+          { quoted: m }
         );
       } else if (real.videoMessage) {
-        await levanter.sendMessage(
-          from,
-          { video: real.videoMessage, caption: '🎥 Unlocked Video' },
-          { quoted: mek }
+        await bot.sendMessage(
+          m.chat,
+          { video: real.videoMessage, caption: `🎥 Auto-unlocked video from ${m.pushName || m.sender}` },
+          { quoted: m }
         );
       } else if (real.audioMessage) {
-        await levanter.sendMessage(
-          from,
-          {
-            audio: real.audioMessage,
-            mimetype: 'audio/mpeg',
-            ptt: false,
-          },
-          { quoted: mek }
+        await bot.sendMessage(
+          m.chat,
+          { audio: real.audioMessage, mimetype: "audio/mpeg" },
+          { quoted: m }
         );
-      } else {
-        return reply('❌ Unsupported media type!');
       }
     } catch (err) {
-      console.error('VV PLUGIN ERROR', err);
-      reply('❌ Error unlocking media!');
+      console.error("AUTO-VV ERROR:", err);
     }
   }
 );
