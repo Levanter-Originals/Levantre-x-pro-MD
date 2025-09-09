@@ -30,7 +30,6 @@
     "punycode": "^2.3.1",
     "qrcode-terminal": "^0.12.0",
     "tmp": "^0.2.5",
-    "@vreden/youtube_scraper": "^1.2.7",
     "util": "^0.12.5",
     "vm": "^0.1.0"
   }
