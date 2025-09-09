@@ -40,17 +40,17 @@ cmd(
     }
   ) => {
     try {
-      if (!q) return reply("*Please provide a valid Facebook video URL!* ❤️");
+      if (!q) return reply("*Please Provide a Valid Facebook Video URL!*");
 
       const fbRegex = /(https?:\/\/)?(www\.)?(facebook|fb)\.com\/.+/;
       if (!fbRegex.test(q))
-        return reply("*Invalid Facebook URL! Please check and try again.* ☹️");
+        return reply("*Invalid Facebook URL! Please Check And Try Again.* ☹️");
 
-      reply("*Downloading your video...* ❤️");
+      reply("*DOWNLOADING YOUR VIDEO..* ❤️");
 
       const result = await getFbVideoInfo(q);
       if (!result || (!result.sd && !result.hd)) {
-        return reply("*Failed to download video. Please try again later.* ☹️");
+        return reply("*Failed To Download Video. Please Try Again Later.* ☹️");
       }
 
       const { title, sd, hd } = result;
@@ -61,12 +61,12 @@ cmd(
         from,
         {
           video: { url: bestQualityUrl },
-          caption: `*📥 Downloaded in ${qualityText} quality*`,
+          caption: `*DOWNLOAD IN ${qualityText} QUALITY *`,
         },
         { quoted: mek }
       );
 
-      return reply("Thank you for using DANUWA-MD");
+      return reply("");
     } catch (e) {
       console.error(e);
       reply(`*Error:* ${e.message || e}`);
