@@ -5,7 +5,7 @@ cmd(
   {
     pattern: "fb",
     alias: ["facebook"],
-    react: "✅",
+    react: "♻️",
     desc: "Download Facebook Video",
     category: "download",
     filename: __filename,
@@ -57,11 +57,7 @@ cmd(
       const bestQualityUrl = hd || sd;
       const qualityText = hd ? "HD" : "SD";
 
-      const desc = `
-Your fb video
-👻 *Title*: ${title || "Unknown"}
-👻 *Quality*: ${qualityText}
-`;
+     
 
       await danuwa.sendMessage(
         from,
