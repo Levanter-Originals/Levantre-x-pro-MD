@@ -61,7 +61,7 @@ cmd(
         from,
         {
           video: { url: bestQualityUrl },
-          caption: `*DOWNLOAD IN ${qualityText} QUALITY *`,
+          caption: `*DOWNLOAD IN ${qualityText} QUALITY*`,
         },
         { quoted: mek }
       );
